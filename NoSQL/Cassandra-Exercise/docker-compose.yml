@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  cassandra1:
+    image: cassandra:4.1
+    container_name: cassandra1
+    environment:
+      - CASSANDRA_CLUSTER_NAME=DemoCluster
+      - CASSANDRA_SEEDS=cassandra1
+    ports:
+      - "9042:9042"
+    networks:
+      - cassandra-net
+
+  cassandra2:
+    image: cassandra:4.1
+    container_name: cassandra2
+    environment:
+      - CASSANDRA_CLUSTER_NAME=DemoCluster
+      - CASSANDRA_SEEDS=cassandra1
+    depends_on:
+      - cassandra1
+    networks:
+      - cassandra-net
+
+  cassandra3:
+    image: cassandra:4.1
+    container_name: cassandra3
+    environment:
+      - CASSANDRA_CLUSTER_NAME=DemoCluster
+      - CASSANDRA_SEEDS=cassandra1
+    depends_on:
+      - cassandra1
+    networks:
+      - cassandra-net
+
+networks:
+  cassandra-net:
